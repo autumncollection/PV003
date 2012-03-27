@@ -112,7 +112,7 @@ END;
 
 ALTER TABLE TRACKS
 ADD ( CONSTRAINT tracks_length
-   CHECK(REGEXP_LIKE(length, '^[[:digit:]]{1,2}:[[:digit:]]{1,2}$')));
+   CHECK(REGEXP_LIKE(length, '^([0-9]|[0-5][0-9]):([0-9]|[0-5][0-9])$')));
 
 /
 
