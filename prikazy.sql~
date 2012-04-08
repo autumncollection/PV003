@@ -386,18 +386,15 @@ select 'The shortest song is "'|| tracks || '" from album "' || album || '". Tim
      select s.shortest_track, t.tracks, t.id_album from statistics s INNER JOIN tracks t ON s.shortest_track_id = t.id_tracks WHERE s.ID_STAT = 1
      ) f INNER JOIN ALBUM s ON f.ID_ALBUM = s.ID_ALBUM;
 
--- Gets the number of albums for each band
-create view album_numbers as 
+-- Writes the number of albums for each band
+SELECT s.id_band,s.band,s.Albums, COUNT(*) as Tracks FROM ((
 SELECT b.id_band,b.band,COUNT(*) as Albums
 FROM band b,album a 
 WHERE b.id_band = a.id_band 
-GROUP BY b.id_band,b.band;
-
--- Writes the number of albums and tracks for each band
-SELECT s.id_band,s.band,s.Albums, COUNT(*) as Tracks FROM 
-album_numbers s, album a, tracks t
-WHERE a.ID_band = s.id_band AND t.id_album=a.id_album
-GROUP BY s.id_band,s.band,s.Albums;
+GROUP BY b.id_band,b.band
+) s, album a, tracks t)
+WHERE album.ID_band = s.id_band AND t.id_album=a.id_album
+GROUP BY s.id_band;
 
 /*
 CREATE OR REPLACE FUNCTION AVG_LEN(?) RETURN VARCHAR2(15) AS
