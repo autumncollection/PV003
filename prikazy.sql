@@ -351,6 +351,9 @@ INSERT INTO TRACKS(id_tracks, id_album, tracks, length) VALUES (NULL, 6, 'Just b
 UPDATE TRACKS SET length = '27:00' WHERE id_tracks = 19;
 DELETE FROM TRACKS WHERE id_tracks = 19;
 
+
+--------------------------------- SELECTS -----------------------------
+
 -- Selects name of band, album, track and its length that currently hold the
 -- record in track length (shortest/longest). (and orders them... wow) 
 SELECT band, album, tracks, length 
@@ -398,6 +401,19 @@ SELECT s.id_band,s.band,s.Albums, COUNT(*) as Tracks FROM
 album_numbers s, album a, tracks t
 WHERE a.ID_band = s.id_band AND t.id_album=a.id_album
 GROUP BY s.id_band,s.band,s.Albums;
+
+-- Writes the number of tracks for each year
+SELECT album.year, COUNT(tracks.tracks) FROM album,tracks WHERE album.ID_ALBUM = tracks.ID_ALBUM GROUP BY album.year HAVING album.year IS NOT NULL;
+
+-- Writes the number of lines in each table (band,album,statistics,tracks)
+SELECT bands_rows,album_rows,statistics_rows, tracks_rows  FROM 
+(SELECT COUNT(*) as bands_rows FROM band),
+(SELECT COUNT(*) as album_rows FROM album),
+(SELECT COUNT(*) as statistics_rows FROM statistics),
+(SELECT COUNT(*) as tracks_rows FROM tracks)
+
+
+
 
 /*
 CREATE OR REPLACE FUNCTION AVG_LEN(?) RETURN VARCHAR2(15) AS
